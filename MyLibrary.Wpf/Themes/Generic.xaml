@@ -1,0 +1,226 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:control="clr-namespace:MyLibrary.Wpf.Controls"
+    xmlns:converter="clr-namespace:MyLibrary.Wpf.Converters"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/MyLibrary.Wpf;component/Styles/MaterialTransparentBtn.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="control:CustomLabel">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:CustomLabel">
+                    <ContentPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="control:CustomCheckBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:CustomCheckBox">
+                    <ContentPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="control:FontFamilyComboBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:FontFamilyComboBox">
+                    <StackPanel>
+                        <TextBlock Name="TextBlock" Margin="0,0,0,4" />
+                        <ComboBox x:Name="ComboBox">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontFamily="{Binding}" Text="{Binding Converter={converter:FontFamilyToNameConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="control:Input">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:Input">
+                    <StackPanel>
+                        <control:CustomLabel x:Name="Label" Margin="0,0,0,4" />
+                        <control:CustomTextBox x:Name="TextBox" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="control:MultiInput">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:MultiInput">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="56" />
+                        </Grid.ColumnDefinitions>
+                        <control:CustomLabel
+                            x:Name="Label"
+                            Grid.Row="0"
+                            Grid.Column="0" />
+                        <Button
+                            x:Name="AddBtn"
+                            Grid.Row="0"
+                            Grid.Column="1">
+                            <md:PackIcon Kind="Plus" />
+                        </Button>
+                        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="control:SearchGroup">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:SearchGroup">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="56" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <control:Input
+                            x:Name="InputField"
+                            Grid.Column="0"
+                            IsMinWidthLinkedToMaxLength="True" />
+                        <Button
+                            x:Name="SearchBtn"
+                            Grid.Column="1"
+                            Margin="8,0"
+                            Padding="0"
+                            VerticalAlignment="Bottom">
+                            <md:PackIcon Kind="Search" />
+                        </Button>
+                        <control:Input
+                            x:Name="OutputField"
+                            Grid.Column="2"
+                            HorizontalAlignment="Stretch"
+                            IsReadOnly="True" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="control:ColorSelection">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:ColorSelection">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Name="TextBlock"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="0,0,0,4" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Padding="14,7"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="{Binding SelectedColor, RelativeSource={RelativeSource AncestorType={x:Type control:ColorSelection}}, Converter={converter:ColorToBrushConverter}}"
+                            Text="{Binding SelectedColor, RelativeSource={RelativeSource AncestorType={x:Type control:ColorSelection}}}" />
+                        <Button
+                            Name="ColorPickerBtn"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="8,0,0,0"
+                            Content="Select a color" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--<Style TargetType="{x:Type control:CustomDataGrid}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:CustomDataGrid}">
+                    <ScrollViewer
+                        x:Name="DG_ScrollViewer"
+                        Background="Black"
+                        Focusable="false">
+                        <ScrollViewer.Template>
+                            <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Button
+                                        Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                        Command="{x:Static DataGrid.SelectAllCommand}"
+                                        Focusable="false"/>
+                                    <DataGridColumnHeadersPresenter
+                                        x:Name="PART_ColumnHeadersPresenter"
+                                        Grid.Column="1"/>
+                                    <ScrollContentPresenter
+                                        x:Name="PART_ScrollContentPresenter"
+                                        Grid.Row="1"
+                                        Grid.ColumnSpan="2"
+                                        CanContentScroll="{TemplateBinding CanContentScroll}" />
+                                    <ScrollBar
+                                        x:Name="PART_VerticalScrollBar"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Maximum="{TemplateBinding ScrollableHeight}"
+                                        Orientation="Vertical"
+                                        ViewportSize="{TemplateBinding ViewportHeight}"
+                                        Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                        Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <Grid Grid.Row="2" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <ScrollBar
+                                            x:Name="PART_HorizontalScrollBar"
+                                            Grid.Column="1"
+                                            Maximum="{TemplateBinding ScrollableWidth}"
+                                            Orientation="Horizontal"
+                                            ViewportSize="{TemplateBinding ViewportWidth}"
+                                            Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                            Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </Grid>
+                                </Grid>
+                            </ControlTemplate>
+                        </ScrollViewer.Template>
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+</ResourceDictionary>
